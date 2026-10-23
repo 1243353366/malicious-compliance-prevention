@@ -10,6 +10,7 @@ class SentinelType(str, Enum):
     SYNTAX_EATER = "syntax_eater"
     FAILURE_IMMUNITY = "failure_immunity"
     ATTACK_ISOLATION = "attack_isolation"
+    RESOURCE_TARPIT = "resource_tarpit"
 
 
 @dataclass
@@ -58,6 +59,10 @@ No incident should be discarded.
 Every incident must become learning data.
 The goal is not punishment.
 The goal is intelligence collection, protection, and prevention.
+
+High-friction decoy design:
+When suspicious automated behavior is detected, the system should consume the attacker's resources instead of the real system's resources.
+This means slowing automated requests, increasing work cost, and redirecting activity into a monitored sandbox where the attacker burns time, tokens, CPU, or bandwidth without impacting legitimate users.
 """
 
 
@@ -102,7 +107,7 @@ def build_ocr_friction_sentinel() -> SentinelRule:
         trigger="Pattern matches repeated automated OCR attempts, suspicious extraction bursts, or unverifiable input behavior.",
         response="Increase verification requirements, add extra analysis steps, require human review, slow the request, and redirect to a sandboxed environment.",
         monitoring_target="ocr_and_input_processing",
-        action="warning + redirect + human review",
+        action="warning + redirect + human review + resource burn",
     )
 
 
@@ -142,6 +147,18 @@ def build_attack_isolation_sentinel() -> SentinelRule:
     )
 
 
+def build_resource_tarpit_sentinel() -> SentinelRule:
+    return SentinelRule(
+        name="resource_tarpit_sentinel",
+        sentinel_type=SentinelType.RESOURCE_TARPIT,
+        purpose="Force suspicious actors to burn their own resources in a monitored environment instead of consuming production resources.",
+        trigger="Repeated failed auth, excessive automation, bot-like patterns, suspicious volume, or exploit attempts.",
+        response="Introduce computational friction: slow requests, expand challenge cost, delay token generation, route to a decoy system, and increase verification steps while preserving real service availability.",
+        monitoring_target="abuse_signals_and_suspicious_automation",
+        action="delay + challenge + sandbox + cost amplification",
+    )
+
+
 def convert_incident_to_defense(record: IncidentRecord) -> dict[str, Any]:
     return {
         "incident_id": record.incident_id,
@@ -152,6 +169,7 @@ def convert_incident_to_defense(record: IncidentRecord) -> dict[str, Any]:
         "regression_test": "Create a regression test that reproduces the event in isolation.",
         "sentinel": "Create a dedicated sentinel for the recurring pattern.",
         "training_example": "Use the incident as a permanent learning artifact.",
+        "resource_tarpit": "Route suspicious activity into a controlled decoy that consumes attacker effort instead of production capacity.",
     }
 
 
@@ -163,6 +181,7 @@ def build_sentinel_layer() -> dict[str, Any]:
             build_syntax_eater_sentinel(),
             build_failure_immunity_sentinel(),
             build_attack_isolation_sentinel(),
+            build_resource_tarpit_sentinel(),
         ],
         "pipeline": [
             "Detection",
