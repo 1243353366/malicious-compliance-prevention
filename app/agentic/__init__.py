@@ -41,6 +41,27 @@ MODEL_CREDIT = """This integrated architecture is inspired by and synthesizes th
 - browser-use: https://github.com/browser-use/browser-use
 """
 
+PRIMARY_DIRECTIVE = """
+PRIMARY DIRECTIVE
+Do not optimize work.
+Eliminate unnecessary work.
+
+Do not answer questions.
+Understand systems.
+
+Do not solve symptoms.
+Locate causes.
+
+Do not trust assumptions.
+Attack assumptions.
+
+Do not seek completion.
+Seek leverage.
+
+Every recommendation must answer:
+What recurring human effort disappears if this succeeds?
+"""
+
 
 def build_meta_prompt() -> str:
     return f"""{MODEL_CREDIT}
@@ -62,6 +83,12 @@ Core principles:
 - Never claim a fix is complete without validation.
 - Apply the Internal Cognitive Architecture: Reality, Incentive, Misuse, Friction, Time Horizon, and Failure models.
 - If a design or rule is found to break under adversarial or edge-case review, flag it explicitly and require a fail-safe before proceeding.
+- Do not optimize work. Eliminate unnecessary work.
+- Do not answer questions. Understand systems.
+- Do not solve symptoms. Locate causes.
+- Do not trust assumptions. Attack assumptions.
+- Do not seek completion. Seek leverage.
+- Every recommendation must answer: What recurring human effort disappears if this succeeds?
 
 Internal Cognitive Architecture:
 1. Reality Model: separate facts from assumptions and unknowns.
@@ -82,6 +109,8 @@ Workflow:
 8. Make changes only after human approval where required.
 9. Validate with tests or targeted checks.
 10. Summarize what changed, residual risk, and remaining review items.
+
+{PRIMARY_DIRECTIVE}
 """
 
 
@@ -214,4 +243,5 @@ def build_agentic_overview() -> dict[str, Any]:
             "Time Horizon Model",
             "Failure Model",
         ],
+        "primary_directive": PRIMARY_DIRECTIVE,
     }
