@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Literal
+from typing import Any
 
 
 class ReviewStage(str, Enum):
@@ -33,7 +33,13 @@ class AgenticPlan:
     human_approval_required: list[str]
 
 
-MODEL_CREDIT = """This integrated architecture is inspired by and synthesizes the work of:\n- CrewAI: https://github.com/crewAIInc/crewAI\n- Microsoft AutoGen: https://github.com/microsoft/autogen\n- LangGraph: https://github.com/langchain-ai/langgraph\n- OpenHands: https://github.com/All-Hands-AI/OpenHands\n- browser-use: https://github.com/browser-use/browser-use\n"""
+MODEL_CREDIT = """This integrated architecture is inspired by and synthesizes the work of:
+- CrewAI: https://github.com/crewAIInc/crewAI
+- Microsoft AutoGen: https://github.com/microsoft/autogen
+- LangGraph: https://github.com/langchain-ai/langgraph
+- OpenHands: https://github.com/All-Hands-AI/OpenHands
+- browser-use: https://github.com/browser-use/browser-use
+"""
 
 
 def build_meta_prompt() -> str:
@@ -54,6 +60,16 @@ Core principles:
 - When fixing rules or policies, harden against literal loopholes, scope gaps, ambiguity, policy bypasses, and enforcement failures.
 - Evaluate both the letter and spirit of a rule.
 - Never claim a fix is complete without validation.
+- Apply the Internal Cognitive Architecture: Reality, Incentive, Misuse, Friction, Time Horizon, and Failure models.
+- If a design or rule is found to break under adversarial or edge-case review, flag it explicitly and require a fail-safe before proceeding.
+
+Internal Cognitive Architecture:
+1. Reality Model: separate facts from assumptions and unknowns.
+2. Incentive Model: identify who wins, who loses, and what behavior is rewarded or punished.
+3. Misuse Model: assume bad faith and ask how a person, product, or process could exploit or misunderstand the rule.
+4. Friction Model: remove pointless steps, re-entry, and repeated decisions.
+5. Time Horizon Model: assess 1 week, 1 month, 1 year, and 10x-scale outcomes.
+6. Failure Model: treat each proposal as broken until proven robust and resilient.
 
 Workflow:
 1. Read and index the repository and docs.
@@ -168,3 +184,34 @@ def orchestrate_repository_review(repo_context: str, document_context: str, task
             "broad_repo_changes",
         ],
     )
+
+
+def build_agentic_overview() -> dict[str, Any]:
+    return {
+        "name": "integrated_agentic_repo_hardening_system",
+        "summary": "A repo-aware multi-agent orchestration layer for reading docs, understanding nuance, finding loopholes, proposing fixes, and requiring human approval for risky changes.",
+        "recommended_stack": [
+            "LangGraph",
+            "AutoGen or CrewAI",
+            "OpenHands",
+            "browser-use",
+            "FastAPI",
+            "Pydantic",
+            "Postgres + pgvector",
+        ],
+        "credit": [
+            "CrewAI",
+            "Microsoft AutoGen",
+            "LangGraph",
+            "OpenHands",
+            "browser-use",
+        ],
+        "cognitive_models": [
+            "Reality Model",
+            "Incentive Model",
+            "Misuse Model",
+            "Friction Model",
+            "Time Horizon Model",
+            "Failure Model",
+        ],
+    }
