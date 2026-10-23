@@ -11,6 +11,9 @@ class SentinelType(str, Enum):
     FAILURE_IMMUNITY = "failure_immunity"
     ATTACK_ISOLATION = "attack_isolation"
     RESOURCE_TARPIT = "resource_tarpit"
+    DDoS_GUARD = "ddos_guard"
+    PROMPT_INJECTION = "prompt_injection"
+    DEPENDENCY = "dependency"
 
 
 @dataclass
@@ -55,6 +58,11 @@ Instead, suspicious activity, malformed input, and recurring failures should be:
 - converted into sentinels
 - converted into permanent defensive capabilities
 
+The architecture has three responsibilities:
+- Python = brain: reasoning, orchestration, analysis, repair planning, pattern recognition
+- Go = nervous system: real-time detection, rate limiting, traffic classification, anomaly detection, enforcement
+- SQL = memory: failures, attacks, sentinels, behavior patterns, repair patterns, threat scores
+
 No incident should be discarded.
 Every incident must become learning data.
 The goal is not punishment.
@@ -63,6 +71,17 @@ The goal is intelligence collection, protection, and prevention.
 High-friction decoy design:
 When suspicious automated behavior is detected, the system should consume the attacker's resources instead of the real system's resources.
 This means slowing automated requests, increasing work cost, and redirecting activity into a monitored sandbox where the attacker burns time, tokens, CPU, or bandwidth without impacting legitimate users.
+
+DDoS defense principle:
+Attack
+→ classify
+→ throttle
+→ cache
+→ challenge
+→ isolate
+→ redirect to decoy
+→ collect intelligence
+→ learn and harden
 """
 
 
@@ -97,6 +116,71 @@ def create_incident_record(
         sentinel_created=sentinel_created,
         status=status,
     )
+
+
+def build_python_brain_summary() -> dict[str, list[str]]:
+    return {
+        "roles": [
+            "Builder Agent",
+            "Adversary Agent",
+            "Historian Agent",
+            "Auditor Agent",
+            "Psychology Agent",
+        ],
+        "responsibilities": [
+            "reasoning",
+            "agent orchestration",
+            "LLM interactions",
+            "failure analysis",
+            "pattern recognition",
+            "sentinel generation",
+            "risk scoring",
+        ],
+    }
+
+
+def build_go_guardian_summary() -> dict[str, list[str]]:
+    return {
+        "responsibilities": [
+            "connection monitoring",
+            "rate limiting",
+            "traffic classification",
+            "request analysis",
+            "behavior analysis",
+            "anomaly detection",
+            "real-time enforcement",
+        ],
+        "pipeline": [
+            "internet",
+            "go_gateway",
+            "python_intelligence",
+            "sql_memory",
+        ],
+    }
+
+
+def build_sql_memory_schema() -> dict[str, list[str]]:
+    return {
+        "tables": [
+            "failures",
+            "attacks",
+            "sentinels",
+            "behavior_patterns",
+            "repair_patterns",
+            "threat_scores",
+            "historical_incidents",
+        ],
+        "example_columns": [
+            "failure_id",
+            "failure_type",
+            "input",
+            "output",
+            "environment",
+            "repair",
+            "test_case",
+            "sentinel_generated",
+        ],
+    }
 
 
 def build_ocr_friction_sentinel() -> SentinelRule:
@@ -159,6 +243,42 @@ def build_resource_tarpit_sentinel() -> SentinelRule:
     )
 
 
+def build_ddos_guard_sentinel() -> SentinelRule:
+    return SentinelRule(
+        name="ddos_guard_sentinel",
+        sentinel_type=SentinelType.DDoS_GUARD,
+        purpose="Protect the system from volumetric abuse by classifying traffic and escalating cost before it reaches critical infrastructure.",
+        trigger="Traffic spike, abnormal request rate, bot signature, or repeat request pattern.",
+        response="Throttle traffic, clear cache aggressively, challenge suspicious clients, and isolate abusive sources from production.",
+        monitoring_target="network_and_http_traffic",
+        action="classify + throttle + challenge + isolate",
+    )
+
+
+def build_prompt_injection_sentinel() -> SentinelRule:
+    return SentinelRule(
+        name="prompt_injection_sentinel",
+        sentinel_type=SentinelType.PROMPT_INJECTION,
+        purpose="Identify I/O manipulation, adversarial prompts, and prompt injection patterns before they impact the model or downstream systems.",
+        trigger="Adversarial prompt structure, role-override attempts, context poisoning signals, or prompt manipulation heuristics.",
+        response="Block suspicious payloads, quarantine prompt context, and generate reclassification rules for future runs.",
+        monitoring_target="model_inputs_and_prompts",
+        action="sanitize + quarantine + detect + learn",
+    )
+
+
+def build_dependency_sentinel() -> SentinelRule:
+    return SentinelRule(
+        name="dependency_sentinel",
+        sentinel_type=SentinelType.DEPENDENCY,
+        purpose="Detect dependency drift, vulnerable versions, and unsafe package changes before they become production issues.",
+        trigger="Version mismatch, package drift, vulnerable library signatures, or risky dependency changes.",
+        response="Flag the dependency, recommend an upgrade or pin, generate a repair plan, and create a monitoring signal for future drift detection.",
+        monitoring_target="dependency_manifest_and_runtime_environment",
+        action="scan + alert + repair plan + monitor",
+    )
+
+
 def convert_incident_to_defense(record: IncidentRecord) -> dict[str, Any]:
     return {
         "incident_id": record.incident_id,
@@ -182,6 +302,9 @@ def build_sentinel_layer() -> dict[str, Any]:
             build_failure_immunity_sentinel(),
             build_attack_isolation_sentinel(),
             build_resource_tarpit_sentinel(),
+            build_ddos_guard_sentinel(),
+            build_prompt_injection_sentinel(),
+            build_dependency_sentinel(),
         ],
         "pipeline": [
             "Detection",
@@ -193,4 +316,9 @@ def build_sentinel_layer() -> dict[str, Any]:
             "Sentinel",
             "Prevention",
         ],
+        "system_layers": {
+            "python": build_python_brain_summary(),
+            "go": build_go_guardian_summary(),
+            "sql": build_sql_memory_schema(),
+        },
     }
