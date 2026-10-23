@@ -1,0 +1,177 @@
+from __future__ import annotations
+
+from typing import Any
+
+ATTACK_CATEGORIES = [
+    {
+        "category": "scope_attacks",
+        "title": "Scope Attacks",
+        "questions": [
+            "What happens if a user does exactly what is allowed but clearly violates the intent?",
+            "What terms are undefined?",
+            "Which definitions could reasonably have multiple interpretations?",
+            "What actions fall just outside the stated scope?",
+            "What assumptions are never explicitly stated?",
+            "Can two clauses contradict each other?",
+            "Can the system be used in a context never anticipated by the designers?",
+            "Where does responsibility change hands?",
+            "What happens when multiple scopes overlap?",
+            "What happens if someone intentionally exploits a scope gap?",
+        ],
+    },
+    {
+        "category": "ambiguity_attacks",
+        "title": "Ambiguity Attacks",
+        "questions": [
+            "What language could be interpreted differently by opposing parties?",
+            "Which words depend on subjective judgment?",
+            "What does 'reasonable' mean here?",
+            "What does 'timely' mean?",
+            "What does 'best effort' mean?",
+            "Who decides whether compliance occurred?",
+            "How would a hostile lawyer read this?",
+            "How would a hostile auditor read this?",
+            "How would a hostile user read this?",
+            "Could two intelligent people reach opposite conclusions?",
+        ],
+    },
+    {
+        "category": "enforcement_attacks",
+        "title": "Enforcement Attacks",
+        "questions": [
+            "How is compliance verified?",
+            "What evidence proves a violation?",
+            "Who enforces the rule?",
+            "What happens if enforcement fails?",
+            "What happens if the enforcer is compromised?",
+            "What happens if nobody reports the violation?",
+            "Are penalties actually enforceable?",
+            "Can enforcement become selective?",
+            "Can enforcement create perverse incentives?",
+            "What is the appeal process?",
+        ],
+    },
+    {
+        "category": "identity_attacks",
+        "title": "Identity Attacks",
+        "questions": [
+            "How is identity established?",
+            "Can identity be spoofed?",
+            "Can identity be transferred?",
+            "Can multiple identities be created?",
+            "Can ownership be disputed?",
+            "How are deceased users handled?",
+            "How are stolen accounts handled?",
+            "How are shared accounts handled?",
+            "What happens when identity changes?",
+            "What happens if identity cannot be proven?",
+        ],
+    },
+    {
+        "category": "edge_case_attacks",
+        "title": "Edge Case Attacks",
+        "questions": [
+            "What happens at minimum values?",
+            "What happens at maximum values?",
+            "What happens at zero?",
+            "What happens at one?",
+            "What happens at extremely large scales?",
+            "What happens if every user does this simultaneously?",
+            "What happens if data is incomplete?",
+            "What happens if requirements conflict?",
+            "What happens during migration?",
+            "What happens during failure recovery?",
+        ],
+    },
+    {
+        "category": "abuse_case_attacks",
+        "title": "Abuse Case Attacks",
+        "questions": [
+            "How would a malicious actor exploit this?",
+            "What is the cheapest attack available?",
+            "What attack requires no technical skill?",
+            "How could an insider abuse it?",
+            "How could a customer abuse it?",
+            "How could management abuse it?",
+            "How could automation abuse it?",
+            "Which abuse produces the most gain?",
+            "Which abuse is hardest to detect?",
+            "Which abuse appears legitimate?",
+        ],
+    },
+    {
+        "category": "incentive_attacks",
+        "title": "Incentive Attacks",
+        "questions": [
+            "What behavior does this reward?",
+            "What behavior does this accidentally reward?",
+            "What behavior does this punish?",
+            "Could compliance produce worse outcomes?",
+            "Can users maximize rewards while harming the system?",
+            "What shortcuts become attractive?",
+            "Can metrics be gamed?",
+            "Can reporting be manipulated?",
+            "Do incentives align with desired outcomes?",
+            "Who benefits from failure?",
+        ],
+    },
+    {
+        "category": "data_attacks",
+        "title": "Data Attacks",
+        "questions": [
+            "What data is trusted automatically?",
+            "What data should not be trusted?",
+            "Can input be forged?",
+            "Can logs be altered?",
+            "Is data provenance tracked?",
+            "What happens if data disappears?",
+            "What happens if data is duplicated?",
+            "What happens if data is corrupted?",
+            "What happens if data is delayed?",
+            "What happens if data conflicts?",
+        ],
+    },
+    {
+        "category": "process_attacks",
+        "title": "Process Attacks",
+        "questions": [
+            "What process step has no validation?",
+            "Where is human intervention required?",
+            "What happens if a step is skipped?",
+            "What happens if steps occur out of order?",
+            "Can the process deadlock?",
+            "Can approvals become bottlenecks?",
+            "Can approvals become rubber stamps?",
+            "What assumptions exist between process handoffs?",
+            "What happens when workflow ownership changes?",
+            "Can the process be completed incorrectly yet appear successful?",
+        ],
+    },
+    {
+        "category": "failure_and_recovery_attacks",
+        "title": "Failure and Recovery Attacks",
+        "questions": [
+            "What is the single point of failure?",
+            "What happens when dependencies disappear?",
+            "What happens when communications fail?",
+            "What is the worst possible legal outcome?",
+            "What is the worst possible technical outcome?",
+            "How quickly can the issue be detected?",
+            "How quickly can it be corrected?",
+            "How is damage contained?",
+            "What lessons would be learned from a catastrophic failure?",
+            "If you had to intentionally break this system tomorrow, where would you start?",
+        ],
+    },
+]
+
+
+def build_attack_taxonomy() -> list[dict[str, Any]]:
+    return [
+        {
+            "category": item["category"],
+            "title": item["title"],
+            "questions": list(item["questions"]),
+        }
+        for item in ATTACK_CATEGORIES
+    ]
