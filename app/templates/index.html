@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Malicious Compliance Prevention</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f5f7fa; }
+      form { max-width: 720px; background: white; padding: 1.5rem; border-radius: 12px; }
+      label { display: block; margin-top: 1rem; }
+      input, select, button { width: 100%; padding: 0.7rem; margin-top: 0.4rem; }
+      button { background: #0c4a6e; color: white; border: none; cursor: pointer; }
+      pre { white-space: pre-wrap; background: #111827; color: #e5e7eb; padding: 1rem; border-radius: 8px; }
+      .meta { color: #4b5563; }
+      .finding { margin-top: 1rem; background: white; padding: 1rem; border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>Malicious Compliance Prevention</h1>
+    <p class="meta">Source-grounded legal rule-gap and principle-integrity analyzer</p>
+
+    <form id="analysis-form">
+      <label>
+        Document
+        <input type="file" id="file" name="file" required />
+      </label>
+      <label>
+        Document Type
+        <select id="document_type" name="document_type">
+          <option value="policy">Policy</option>
+          <option value="contract">Contract</option>
+          <option value="privacy_policy">Privacy Policy</option>
+          <option value="procedure">Procedure</option>
+        </select>
+      </label>
+      <label>
+        Jurisdiction
+        <select id="jurisdiction" name="jurisdiction">
+          <option value="US">US</option>
+          <option value="EU">EU</option>
+        </select>
+      </label>
+      <label>
+        Review Date
+        <input type="date" id="review_date" name="review_date" value="2026-10-23" />
+      </label>
+      <button type="submit">Analyze document</button>
+    </form>
+
+    <div id="results" style="margin-top: 2rem;"></div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+[project]
+name = "malicious-compliance-prevention"
+version = "0.1.0"
+description = "Legal rule-gap and malicious-compliance prevention analyzer with provenance and adversarial audits"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0",
+  "uvicorn[standard]>=0.30.0",
+  "pydantic>=2.8.0",
+  "pydantic-settings>=2.5.0",
+  "sqlalchemy[asyncio]>=2.0.32",
+  "asyncpg>=0.29.0",
+  "python-multipart>=0.0.9",
+  "jinja2>=3.1.4",
+  "python-docx>=1.1.2",
+  "pymupdf>=1.54.1",
+  "httpx>=0.27.0",
+  "email-validator>=2.1.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+  "pytest-asyncio>=0.23.0",
+  "ruff>=0.5.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
