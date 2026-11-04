@@ -80,3 +80,7 @@ tests/
 - Source provenance and citation verification are enforced in the analysis logic.
 - The system separates observations, evidence, inferences, hypotheses, and unknowns.
 - A finding is never promoted to a legal conclusion without source support and validation.
+
+---
+
+Thanks for reading. More of my work: [github.com/1243353366](https://github.com/1243353366).
